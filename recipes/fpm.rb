@@ -20,10 +20,8 @@
 #
 
 # Run the package installation at compile time
-node['php']['fpm_packages'].each do |pkg|
-  package pkg do
-    action :nothing
-  end.run_action(:install)
+node['php']['fpm_package'] do
+  action :install
 end
 
 # This deletes the default FPM profile. Please use the fpm LWRP to define FPM pools
@@ -36,7 +34,7 @@ template "#{node['php']['fpm_conf_dir']}/php.ini" do
   source 'php.ini.erb'
   owner 'root'
   group 'root'
-  notifies :restart, "service[#{pkgname}]"
+  notifies :restart, "service[#{node['php']['fpm_package']}]"
   mode 00644
   only_if { platform_family?('debian') }
 end
@@ -46,7 +44,7 @@ template "#{node['php']['fpm_conf_dir']}/php-fpm.conf" do
   source 'php-fpm.conf.erb'
   owner 'root'
   group 'root'
-  notifies :restart, "service[#{pkgname}]"
+  notifies :restart, "service[#{node['php']['fpm_package']}]"
   mode 00644
 end
 
@@ -67,6 +65,6 @@ template node['php']['fpm_rotfile'] do
 end
 
 # Since we do not have any pool files we do not attempt to start the service
-service pkgname do
+service node['php']['fpm_package'] do
   action :enable
 end

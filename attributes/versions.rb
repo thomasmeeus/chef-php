@@ -32,9 +32,9 @@ default['php']['mysql_module_edition'] = 'mysqlnd'
 case node['platform_family']
 when 'rhel', 'fedora'
   default['php']['packages'] = %w{ php php-common php-devel php-cli php-pear }
-  default['php']['fpm_packages'] = %w{ php-fpm }
+  default['php']['fpm_package'] = 'php-fpm'
 else
   default['php']['packages'] = %w{ php5-cgi php5 php5-dev php5-cli php-pear }
-  default['php']['fpm_packages'] = %w{ php5-fpm }
+  default['php']['fpm_package'] = 'php5-fpm'
 end
 
