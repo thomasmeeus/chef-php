@@ -25,7 +25,10 @@ pkgs = value_for_platform_family(
   'debian' => %w{ php5-cgi php5 php5-dev php5-cli php-pear }
 )
 
-include_recipe 'yumrepo::atomic' if platform_family?('rhel')
+if node['php']['use_atomic_repo']
+  include_recipe 'yumrepo::atomic' if platform_family?('rhel')
+end
+ 
 include_recipe 'apt' if platform_family?('debian')
 
 # Make sure the Apt cache is updated
