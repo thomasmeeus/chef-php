@@ -20,7 +20,7 @@
 #
 
 # Run the package installation at compile time
-node['php']['fpm_package'] do
+package node['php']['fpm_package'] do
   action :install
 end
 
