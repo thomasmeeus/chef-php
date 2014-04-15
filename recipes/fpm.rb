@@ -34,7 +34,7 @@ template "#{node['php']['fpm_conf_dir']}/php.ini" do
   source 'php.ini.erb'
   owner 'root'
   group 'root'
-  notifies :restart, "service[#{node['php']['fpm_package']}]"
+  notifies :restart, "service[php-fpm]"
   mode 00644
   only_if { platform_family?('debian') }
 end
@@ -44,7 +44,7 @@ template "#{node['php']['fpm_conf_dir']}/php-fpm.conf" do
   source 'php-fpm.conf.erb'
   owner 'root'
   group 'root'
-  notifies :restart, "service[#{node['php']['fpm_package']}]"
+  notifies :restart, "service[php-fpm]"
   mode 00644
 end
 
@@ -65,6 +65,6 @@ template node['php']['fpm_rotfile'] do
 end
 
 # Since we do not have any pool files we do not attempt to start the service
-service node['php']['fpm_package'] do
+service "php-fpm" do
   action :enable
 end
