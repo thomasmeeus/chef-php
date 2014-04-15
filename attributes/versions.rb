@@ -18,6 +18,9 @@
 # limitations under the License.
 #
 
+# Make use of the atomic RHEL repo optional
+default['php']['use_atomic_repo'] = true
+
 # Select the PHP repository you want to use from DotDeb
 # It's either squeeze-php54 or wheezy-php55
 default['php']['dotdeb_distribution'] = 'squeeze-php54'
