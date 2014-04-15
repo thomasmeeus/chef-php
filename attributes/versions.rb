@@ -27,3 +27,14 @@ default['php']['dotdeb_distribution'] = 'squeeze-php54'
 
 # It's either mysql or mysqlnd
 default['php']['mysql_module_edition'] = 'mysqlnd'
+
+# Define package list
+case node['platform_family']
+when 'rhel', 'fedora'
+  default['php']['packages']  = %w{ php php-common php-devel php-cli php-pear },
+  default['php']['fpm_packages']  = %w{ php-fpm }
+else
+  default['php']['packages']  = %w{ php5-cgi php5 php5-dev php5-cli php-pear },
+  default['php']['fpm_packages']  = %w{ php5-fpm }
+end
+
