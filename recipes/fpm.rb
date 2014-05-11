@@ -66,5 +66,6 @@ end
 
 # Since we do not have any pool files we do not attempt to start the service
 service "php-fpm" do
+  service_name('php5-fpm') if platform_family?('debian')
   action :enable
 end
