@@ -19,12 +19,10 @@
 # limitations under the License.
 #
 
-pkgname = value_for_platform_family(
-    [ 'rhel', 'fedora' ] => 'php-fpm',
-    'debian' => 'php5-fpm'
-)
-
-package pkgname
+# Run the package installation at compile time
+package node['php']['fpm_package'] do
+  action :install
+end
 
 # This deletes the default FPM profile. Please use the fpm LWRP to define FPM pools
 file "#{node['php']['fpm_pool_dir']}/www.conf" do
@@ -36,7 +34,7 @@ template "#{node['php']['fpm_conf_dir']}/php.ini" do
   source 'php.ini.erb'
   owner 'root'
   group 'root'
-  notifies :restart, "service[#{pkgname}]"
+  notifies :restart, "service[php-fpm]"
   mode 00644
   only_if { platform_family?('debian') }
 end
@@ -46,7 +44,7 @@ template "#{node['php']['fpm_conf_dir']}/php-fpm.conf" do
   source 'php-fpm.conf.erb'
   owner 'root'
   group 'root'
-  notifies :restart, "service[#{pkgname}]"
+  notifies :restart, "service[php-fpm]"
   mode 00644
 end
 
@@ -67,6 +65,7 @@ template node['php']['fpm_rotfile'] do
 end
 
 # Since we do not have any pool files we do not attempt to start the service
-service pkgname do
+service "php-fpm" do
+  service_name('php5-fpm') if platform_family?('debian')
   action :enable
 end
