@@ -28,7 +28,7 @@ pkg.each do |ppkg|
 	package "php-#{ppkg}" do
     package_name("php5-#{ppkg}") if platform_family?('debian')
 	  action :install
-    notifies(:run, "execute[/usr/sbin/php5enmod #{ppkg}]", :immediately) if platform?('ubuntu') && node['platform_version'].to_f >= 12.04 && !ppkg.eql?('common')
+    notifies(:run, "execute[/usr/sbin/php5enmod #{ppkg}]", :immediately) if platform?('ubuntu') && node['platform_version'].to_f >= 12.04 && !['common', 'cli'].include?(ppkg)
   end
 end
 
