@@ -33,7 +33,7 @@ pkg.each do |ppkg|
 end
 
 if platform?('ubuntu') && node['platform_version'].to_f >= 12.04
-  %{ curl mbstring gd intl pspell mcrypt soap sqlite xsl xmlrpc mhash }.each do |svc|
+  %w{ curl mbstring gd intl pspell mcrypt soap sqlite xsl xmlrpc mhash }.each do |svc|
     execute "/usr/sbin/php5enmod #{svc}" do
       action :nothing
     end
