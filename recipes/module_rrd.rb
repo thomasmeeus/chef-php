@@ -28,9 +28,15 @@ when 'rhel', 'fedora'
 	end
     php_pear 'rrd' do
       action :install
-    end	
+    end
 when 'debian'
 	package 'php5-rrd' do
 		action :install
-	end
+    notifies(:run, "execute[/usr/sbin/php5enmod rrd]", :immediately) if platform?('ubuntu') && node['platform_version'].to_f >= 12.04
+  end
+end
+
+execute '/usr/sbin/php5enmod rrd' do
+  action :nothing
+  only_if { platform?('ubuntu') && node['platform_version'].to_f >= 12.04 }
 end

@@ -2,6 +2,12 @@
 
 This file is used to list changes made in each version of php.
 
+## 1.2.3
+
+* Merged PRs #12, #13, #15, #17
+* Added php5enmod support for Ubuntu >= 12.04
+* Moved to Upstart service provider for FPM for Ubuntu >= 14.04 (closes #19)
+
 ## v1.2.0
 
 * Added ZendOptimizer+ opcache support

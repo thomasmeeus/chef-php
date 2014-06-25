@@ -20,12 +20,22 @@
 #
 
 pkg = value_for_platform_family(
-    [ 'rhel', 'fedora' ] => %w{ php-common php-cli php-mbstring php-gd php-intl php-pspell php-mcrypt php-soap php-sqlite php-xml php-xmlrpc }, 
-    'debian' => %w{ php5-curl php5-json php5-cli php5-gd php5-intl php5-pspell php5-mcrypt php5-mhash php5-sqlite php5-xsl php5-xmlrpc }
+    [ 'rhel', 'fedora' ] => %w{ common cli mbstring gd intl pspell mcrypt soap sqlite xml xmlrpc },
+    'debian' => %w{ common curl cli gd intl pspell mcrypt mhash sqlite xsl xmlrpc }
 )
 
-pkg.each do |ppkg| 
-	package ppkg do
+pkg.each do |ppkg|
+	package "php-#{ppkg}" do
+    package_name("php5-#{ppkg}") if platform_family?('debian')
 	  action :install
-	end
+    notifies(:run, "execute[/usr/sbin/php5enmod #{ppkg}]", :immediately) if platform?('ubuntu') && node['platform_version'].to_f >= 12.04
+  end
+end
+
+if platform?('ubuntu') && node['platform_version'].to_f >= 12.04
+  %{ curl mbstring gd intl pspell mcrypt soap sqlite xsl xmlrpc mhash }.each do |svc|
+    execute "/usr/sbin/php5enmod #{svc}" do
+      action :nothing
+    end
+  end
 end

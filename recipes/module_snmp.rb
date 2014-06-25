@@ -26,4 +26,10 @@ pkg = value_for_platform_family(
 
 package pkg do
   action :install
+  notifies(:run, "execute[/usr/sbin/php5enmod snmp]", :immediately) if platform?('ubuntu') && node['platform_version'].to_f >= 12.04
+end
+
+execute '/usr/sbin/php5enmod snmp' do
+  action :nothing
+  only_if { platform?('ubuntu') && node['platform_version'].to_f >= 12.04 }
 end
