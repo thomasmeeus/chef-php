@@ -36,6 +36,7 @@ if platform?('ubuntu') && node['platform_version'].to_f >= 12.04
   %w{ curl mbstring gd intl pspell mcrypt soap sqlite xsl xmlrpc mhash }.each do |svc|
     execute "/usr/sbin/php5enmod #{svc}" do
       action :nothing
+      only_if { platform?('ubuntu') && node['platform_version'].to_f >= 12.04 && ::File.exists?('/usr/sbin/php5enmod') }
     end
   end
 end
