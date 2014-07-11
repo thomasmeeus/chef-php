@@ -59,13 +59,8 @@ action :add do
 			:value_overrides => new_resource.value_overrides,
 			:env_overrides => new_resource.env_overrides
 		})
-		notifies :restart, 'service[php5-fpm]'
+		notifies :restart, 'service[php-fpm]'
 		mode 00644
-	end
-	
-	service 'php5-fpm' do
-		service_name 'php-fpm' if platform_family?('rhel', 'fedora')
-		action :nothing
 	end
 
 	new_resource.updated_by_last_action(a.updated_by_last_action?)
@@ -78,14 +73,9 @@ action :remove do
 
 	a = file "#{node['php']['fpm_pool_dir']}/#{new_resource.name}.conf" do
 		action :delete
-		notifies :restart, 'service[php5-fpm]'
+		notifies :restart, 'service[php-fpm]'
 	end
 	
-	service 'php5-fpm' do
-		service_name 'php-fpm' if platform_family?('rhel', 'fedora')
-		action :nothing
-	end
-
 	new_resource.updated_by_last_action(a.updated_by_last_action?)
 
 end
