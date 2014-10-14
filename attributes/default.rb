@@ -71,7 +71,7 @@ default['php']['ini_settings'] = {
   'always_populate_raw_post_data' => 'Off',
   'cgi.fix_pathinfo' => '1',
   'upload_max_filesize' => '32M',
-  'date.timezone' => 'Europe/Athens',
+  'date.timezone' => 'UTC',
   'session.cookie_httponly' => '0'
 }
 
