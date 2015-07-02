@@ -9,6 +9,10 @@ You can clone it and import it to Chef as
     git clone git://github.com/priestjim/chef-php.git php
     knife cookbook upload php
 
+You can also install the latest version of the cookbook using Berkshelf. Add the following to your Berksfile:
+
+    cookbook "php", github: "priestjim/chef-php"
+
 Requirements
 ============
 
