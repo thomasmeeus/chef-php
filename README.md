@@ -9,13 +9,17 @@ You can clone it and import it to Chef as
     git clone git://github.com/priestjim/chef-php.git php
     knife cookbook upload php
 
+You can also install the latest version of the cookbook using Berkshelf. Add the following to your Berksfile:
+
+    cookbook "php", github: "priestjim/chef-php"
+
 Requirements
 ============
 
 This cookbook requires the following cookbooks to be present and installed:
 
 * apache2 (for the Apache mod_php module)
-* chef-yumrepo from https://github.com/priestjim/chef-yumrepo for the Atomic repository in CentOS
+* [chef-yumrepo](https://github.com/priestjim/chef-yumrepo) (for the Atomic repository in CentOS)
 
 To build PHP from source you will also need:
 
