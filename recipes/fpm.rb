@@ -24,11 +24,6 @@ package node['php']['fpm_package'] do
   action :install
 end
 
-# This deletes the default FPM profile. Please use the fpm LWRP to define FPM pools
-file "#{node['php']['fpm_pool_dir']}/www.conf" do
-  action :delete
-end
-
 # Ubuntu uses a separate ini for FPM
 template "#{node['php']['fpm_conf_dir']}/php.ini" do
   source 'php.ini.erb'
